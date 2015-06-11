@@ -25,7 +25,6 @@ package de.appplant.cordova.plugin.notification;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -72,23 +71,9 @@ abstract public class AbstractTriggerReceiver extends BroadcastReceiver {
         Builder builder = new Builder(options);
         Notification notification = buildNotification(builder);
         boolean updated = notification.isUpdate();
+        // Ajoute par SKI
         launchApp(context);
         onTrigger(notification, updated);
-    }
-
-    public void launchApp(Context paramContext) {
-    	ContextWrapper cwrap=(ContextWrapper)paramContext;
-        Context context = cwrap.getApplicationContext();
-        String pkgName  = context.getPackageName();
-
-        Intent intent = context
-                .getPackageManager()
-                .getLaunchIntentForPackage(pkgName);
-
-        intent.addFlags(
-                Intent.FLAG_ACTIVITY_REORDER_TO_FRONT | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
-        context.startActivity(intent);
     }
 
     /**
